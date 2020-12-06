@@ -1,0 +1,15 @@
+POST http://localhost:2379/v3/kv/put HTTP/1.1
+Content-Type: application/json
+
+{
+    "key": "Y29tLm9uZW1zZy5leGFtcGxlLkhlbGxvU2VydmljZQ==",
+    "value": "bG9jYWxob3N0OjE4MDgw"
+}
+
+###
+POST http://localhost:2379/v3/kv/range HTTP/1.1
+Content-Type: application/json
+
+{
+    "key": "Y29tLm9uZW1zZy5vbmVycGMuZXhhbXBsZS5IZWxsb1NlcnZpY2U="
+}
