@@ -27,4 +27,9 @@ public class RegistryUtil {
             logger.warn("服务 {} 注册失败", clazz.getName());
         }
     }
+
+    public void close(){
+        registryCenter.close();
+        logger.info("与注册中心的连接已关闭");
+    }
 }

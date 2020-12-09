@@ -34,7 +34,7 @@ public class RegistryUtil {
 
     private URI poll(String name){
         Address address = registryCenter.discover(name);
-        logger.info("服务发现 {}: {}", name, address);
+        logger.info("服务发现 [{}: {}]", name, address);
         return URI.create("http://" + address.toString() + "/");
     }
 

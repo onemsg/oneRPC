@@ -10,7 +10,7 @@ public class Loggers {
     
     private static final Logger SERVER_LOGGER = LoggerFactory.getLogger("Server-Logger");
     private static final Logger CLIENT_LOGGER = LoggerFactory.getLogger("Client-Logger");
-
+    // private static final Logger CORE_LOGGER =
 
     public static Logger getServerLogger(){ return SERVER_LOGGER; }
 

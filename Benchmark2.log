@@ -1,0 +1,82 @@
+# JMH version: 1.26
+# VM version: JDK 11.0.8, Java HotSpot(TM) 64-Bit Server VM, 11.0.8+10-LTS
+# VM invoker: D:\Java\bin\java.exe
+# VM options: -Dfile.encoding=UTF-8
+# Warmup: 3 iterations, 10 s each
+# Measurement: 10 iterations, 5 s each
+# Timeout: 10 min per iteration
+# Threads: 10 threads, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: com.onemsg.onerpc.example.jmh.OneRpcBenchmark.testLocalInvoke
+
+# Run progress: 0.00% complete, ETA 00:05:20
+# Fork: 1 of 2
+# Warmup Iteration   1: 2803.229 ops/ms
+# Warmup Iteration   2: 2585.972 ops/ms
+# Warmup Iteration   3: 2708.207 ops/ms
+Iteration   1: 2694.006 ops/ms
+Iteration   2: 2577.014 ops/ms
+Iteration   3: 2248.485 ops/ms
+Iteration   4: 2125.256 ops/ms
+Iteration   5: 2447.148 ops/ms
+Iteration   6: 2682.557 ops/ms
+Iteration   7: 2707.789 ops/ms
+Iteration   8: 2735.637 ops/ms
+Iteration   9: 2711.033 ops/ms
+Iteration  10: 2593.338 ops/ms
+
+# Run progress: 25.00% complete, ETA 00:04:15
+# Fork: 2 of 2
+# Warmup Iteration   1: 4369.185 ops/ms
+# Warmup Iteration   2: 4788.880 ops/ms
+# Warmup Iteration   3: 4336.026 ops/ms
+Iteration   1: 4555.552 ops/ms
+Iteration   2: 4575.785 ops/ms
+Iteration   3: 4676.747 ops/ms
+Iteration   4: 4497.728 ops/ms
+Iteration   5: 4437.734 ops/ms
+Iteration   6: 4732.139 ops/ms
+Iteration   7: 4676.467 ops/ms
+Iteration   8: 4319.493 ops/ms
+Iteration   9: 4516.770 ops/ms
+Iteration  10: 4409.462 ops/ms
+
+
+Result "com.onemsg.onerpc.example.jmh.OneRpcBenchmark.testLocalInvoke":
+  3546.007 ±(99.9%) 897.887 ops/ms [Average]
+  (min, avg, max) = (2125.256, 3546.007, 4732.139), stdev = 1034.008
+  CI (99.9%): [2648.120, 4443.894] (assumes normal distribution)
+
+
+# JMH version: 1.26
+# VM version: JDK 11.0.8, Java HotSpot(TM) 64-Bit Server VM, 11.0.8+10-LTS
+# VM invoker: D:\Java\bin\java.exe
+# VM options: -Dfile.encoding=UTF-8
+# Warmup: 3 iterations, 10 s each
+# Measurement: 10 iterations, 5 s each
+# Timeout: 10 min per iteration
+# Threads: 10 threads, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: com.onemsg.onerpc.example.jmh.OneRpcBenchmark.testRpcInvoke
+
+# Run progress: 50.00% complete, ETA 00:02:50
+# Fork: 1 of 2
+# Warmup Iteration   1: 0.489 ops/ms
+# Warmup Iteration   2: 0.813 ops/ms
+# Warmup Iteration   3: 0.907 ops/ms
+Iteration   1: 0.914 ops/ms
+Iteration   2: 0.978 ops/ms
+Iteration   3: 0.802 ops/ms
+Iteration   4: 0.909 ops/ms
+Iteration   5: 0.738 ops/ms
+Iteration   6: 0.833 ops/ms
+Iteration   7: 0.966 ops/ms
+Iteration   8: 0.977 ops/ms
+Iteration   9: 0.789 ops/ms
+Iteration  10: 0.905 ops/ms
+
+# Run progress: 75.00% complete, ETA 00:01:24
+# Fork: 2 of 2
+# Warmup Iteration   1: 0.268 ops/ms
+# Warmup Iteration   2: 0.317 ops/ms
+# Warmup Iteration   3: 

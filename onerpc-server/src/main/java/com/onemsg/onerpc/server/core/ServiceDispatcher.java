@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.Objects;
 
 import com.onemsg.onerpc.core.model.RequestModel;
+import com.onemsg.onerpc.core.model.ResponseModel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,17 +20,20 @@ public final class ServiceDispatcher {
 
     public ServiceDispatcher() { }
 
-    public Object invoke(RequestModel model) {
+    public ResponseModel invoke(RequestModel model) {
 
         Objects.requireNonNull(model);
         Object provider = center.getProvider(model.getClassName());
         if (provider != null){
             try {
                 Method method = provider.getClass().getMethod(model.getMethodName(), model.getParameterTypes());
-                return method.invoke(provider, model.getParams());
+                ResponseModel responseModel = new ResponseModel();
+                responseModel.setType(method.getReturnType());
+                responseModel.setResult(method.invoke(provider, model.getParams()));
+                return responseModel;
             } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
                     | InvocationTargetException e) {
-                logger.error("methodName 执行出错: " + model.getMethodName(), e);
+                logger.error("methodName: " + model.getMethodName() + " 执行出错", e);
             }
         }else{
             logger.info("不存在 provider: {}", model.getClassName());

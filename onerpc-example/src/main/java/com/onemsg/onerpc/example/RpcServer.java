@@ -11,5 +11,6 @@ public class RpcServer {
         
         HelloService hello = new HelloServiceImple();
         OneRpcServer.publish(hello, HelloService.class);
+        OneRpcServer.end();
     }
 }

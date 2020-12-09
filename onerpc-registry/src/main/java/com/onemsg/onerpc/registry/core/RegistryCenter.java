@@ -8,4 +8,6 @@ public interface RegistryCenter {
 
     boolean unRegister(String name, Address address);
 
+    void close();
+
 }

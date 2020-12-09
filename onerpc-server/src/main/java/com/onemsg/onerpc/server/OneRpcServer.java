@@ -43,4 +43,9 @@ public class OneRpcServer {
     public static ServiceCenter getServiceCenter(){
         return CENTER;
     }
+
+    public static void end(){
+        REGISTRY_UTIL.close();
+    }
+
 }

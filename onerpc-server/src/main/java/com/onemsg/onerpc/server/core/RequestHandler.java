@@ -29,9 +29,6 @@ public class RequestHandler{
     }
 
     ResponseModel handle(RequestModel requestModel){
-        Object result = dispatcher.invoke(requestModel);
-        ResponseModel responseModel = new ResponseModel();
-        responseModel.setResult(result);
-        return responseModel;
+        return dispatcher.invoke(requestModel);
     }
 }

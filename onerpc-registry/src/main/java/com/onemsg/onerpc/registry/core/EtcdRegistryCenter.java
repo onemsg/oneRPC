@@ -80,4 +80,10 @@ public class EtcdRegistryCenter implements RegistryCenter {
     private String decode(ByteSequence byteSequence) {
         return byteSequence.toString(StandardCharsets.UTF_8);
     }
+
+    @Override
+    public void close() {
+        kvClient.close();
+        client.close();
+    }
 }
