@@ -7,7 +7,7 @@ public final class ResponseModel implements Serializable {
 
     private static final long serialVersionUID = -7533173038897247882L;
 
-    private Class<?> type;
+    private String type;
     private Object result;
 
     public Object getResult() {
@@ -18,11 +18,11 @@ public final class ResponseModel implements Serializable {
         this.result = result;
     }
 
-    public Class<?> getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Class<?> type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -46,8 +46,5 @@ public final class ResponseModel implements Serializable {
     @Override
     public String toString() {
         return "ResponseModel [result=" + result + ", type=" + type + "]";
-    }
-
-    
-    
+    }   
 }

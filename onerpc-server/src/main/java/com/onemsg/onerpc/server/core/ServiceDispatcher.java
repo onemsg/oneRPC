@@ -28,7 +28,7 @@ public final class ServiceDispatcher {
             try {
                 Method method = provider.getClass().getMethod(model.getMethodName(), model.getParameterTypes());
                 ResponseModel responseModel = new ResponseModel();
-                responseModel.setType(method.getReturnType());
+                responseModel.setType(method.getReturnType().getName());
                 responseModel.setResult(method.invoke(provider, model.getParams()));
                 return responseModel;
             } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
@@ -39,5 +39,6 @@ public final class ServiceDispatcher {
             logger.info("不存在 provider: {}", model.getClassName());
         }
         return null;
+
     }
 }

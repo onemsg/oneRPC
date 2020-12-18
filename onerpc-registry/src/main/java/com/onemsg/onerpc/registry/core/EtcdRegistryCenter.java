@@ -13,6 +13,7 @@ import io.etcd.jetcd.ByteSequence;
 import io.etcd.jetcd.Client;
 import io.etcd.jetcd.KV;
 import io.etcd.jetcd.KeyValue;
+import io.etcd.jetcd.Watch.Listener;
 import io.etcd.jetcd.options.GetOption;
 
 public class EtcdRegistryCenter implements RegistryCenter {
@@ -73,11 +74,17 @@ public class EtcdRegistryCenter implements RegistryCenter {
         return false;
     }
     
-    private ByteSequence encode(String value) {
+    @Override
+    public void watch(String name, Listener listener){
+        client.getWatchClient().watch(encode(name), listener);
+        logger.info("ETCD watch 正在监听 {}", name);
+    }
+
+    private static ByteSequence encode(String value) {
         return ByteSequence.from(value, StandardCharsets.UTF_8);
     }
 
-    private String decode(ByteSequence byteSequence) {
+    private static String decode(ByteSequence byteSequence) {
         return byteSequence.toString(StandardCharsets.UTF_8);
     }
 

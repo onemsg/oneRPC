@@ -64,11 +64,11 @@ public class Models {
         try {
             JsonNode node = objectMapper.readTree(bytes);
             ResponseModel responseModel = new ResponseModel();
-            Class<?> type = objectMapper.readValue(node.get("type").traverse(), Class.class);
+            String type = node.get("type").asText();
             responseModel.setType(type);
-            responseModel.setResult(objectMapper.readValue(node.get("result").traverse(), type));
+            responseModel.setResult(objectMapper.readValue(node.get("result").traverse(), Class.forName(type)));
             return responseModel;
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return null;
