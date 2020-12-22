@@ -7,11 +7,11 @@ import com.onemsg.onerpc.core.model.ResponseModel;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpServerRequest;
 
-public class RequestHandler{
+public class RpcHttpStub{
     
     private ServiceDispatcher dispatcher;
 
-    public RequestHandler(ServiceDispatcher dispatcher){
+    public RpcHttpStub(ServiceDispatcher dispatcher){
         this.dispatcher = dispatcher;
     }
 

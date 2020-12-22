@@ -1,4 +1,4 @@
-package com.onemsg.onerpc.client.Core;
+package com.onemsg.onerpc.client.core;
 
 import java.io.IOException;
 import java.net.URI;
@@ -6,6 +6,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
+import java.net.http.HttpClient.Version;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.CompletableFuture;
@@ -14,6 +15,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import com.onemsg.onerpc.client.registry.RegistryUtil;
 import com.onemsg.onerpc.core.Loggers;
 import com.onemsg.onerpc.core.model.Models;
 import com.onemsg.onerpc.core.model.RequestModel;
@@ -24,7 +26,7 @@ import org.slf4j.Logger;
 
 public class RpcHttpStub {
 
-    private final HttpClient client = HttpClient.newHttpClient();
+    private final HttpClient client = HttpClient.newBuilder().version(Version.HTTP_2).build();
 
     private static final ExecutorService EXECUTOR = new ThreadPoolExecutor(5, 30, 60, 
     TimeUnit.SECONDS, new ArrayBlockingQueue<>(150));

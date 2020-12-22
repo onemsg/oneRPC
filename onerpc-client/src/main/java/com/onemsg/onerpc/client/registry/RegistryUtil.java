@@ -1,4 +1,4 @@
-package com.onemsg.onerpc.client.Core;
+package com.onemsg.onerpc.client.registry;
 
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
@@ -12,8 +12,8 @@ import org.slf4j.LoggerFactory;
 
 import io.etcd.jetcd.KeyValue;
 import io.etcd.jetcd.Watch.Listener;
-import io.etcd.jetcd.watch.WatchResponse;
 import io.etcd.jetcd.watch.WatchEvent.EventType;
+import io.etcd.jetcd.watch.WatchResponse;
 
 public class RegistryUtil {
 

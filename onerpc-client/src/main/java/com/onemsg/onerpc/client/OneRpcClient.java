@@ -1,6 +1,6 @@
 package com.onemsg.onerpc.client;
 
-import com.onemsg.onerpc.client.Core.ClientService;
+import com.onemsg.onerpc.client.core.ClientService;
 
 public class OneRpcClient {
     

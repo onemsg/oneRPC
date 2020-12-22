@@ -15,17 +15,21 @@ public class HttpServerVerticle extends AbstractVerticle {
     public static final String DEFAULT_HOST = "localhost";
     public static final int DEFAULT_PORT = 18080;
     private static final Logger logger = LoggerFactory.getLogger(HttpServerVerticle.class);
-    private RequestHandler requestHandler;
+    private RpcHttpStub requestHandler;
 
     @Override
     public void start() throws Exception {
 
         ServiceDispatcher dispatcher = new ServiceDispatcher();
-        requestHandler = new RequestHandler(dispatcher);
+        requestHandler = new RpcHttpStub(dispatcher);
 
         HttpServerOptions options = new HttpServerOptions();
-        options.setHost(config().getString("host"))
-            .setPort(config().getInteger("port").intValue());
+        options
+            .setHost(config().getString("host"))
+            .setPort(config().getInteger("port").intValue())
+            .setSsl(false)
+            .setMaxWebSocketFrameSize(1000000);
+
         HttpServer server = vertx.createHttpServer(options);
 
         server.connectionHandler(this::handleConnection);
@@ -49,6 +53,7 @@ public class HttpServerVerticle extends AbstractVerticle {
     }
 
     private void handleRequest(HttpServerRequest request){
+        // logger.info("http version : {}", request.version());
         requestHandler.handleRequest(request);
         request.exceptionHandler(this::handleException);
     }
