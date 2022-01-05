@@ -1,21 +1,27 @@
 package com.onemsg.onerpc.core.model;
 
-import java.io.Serializable;
 import java.util.Objects;
 
-public final class ResponseModel implements Serializable {
+/**
+ * rpc 统一响应模型
+ * 
+ * @author mashugang
+ * @since 2021
+ */
+public final class ResponseModel {
 
-    private static final long serialVersionUID = -7533173038897247882L;
-
+    /** 结果全限定类名 */
     private String type;
-    private Object result;
 
-    public Object getResult() {
-        return result;
+    /** 结果 */
+    private Object value;
+
+    public Object getValue() {
+        return value;
     }
 
-    public void setResult(Object result) {
-        this.result = result;
+    public void setResult(Object value) {
+        this.value = value;
     }
 
     public String getType() {
@@ -28,7 +34,7 @@ public final class ResponseModel implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(result, type);
+        return Objects.hash(value, type);
     }
 
     @Override
@@ -40,11 +46,11 @@ public final class ResponseModel implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         ResponseModel other = (ResponseModel) obj;
-        return Objects.equals(result, other.result) && Objects.equals(type, other.type);
+        return Objects.equals(value, other.value) && Objects.equals(type, other.type);
     }
 
     @Override
     public String toString() {
-        return "ResponseModel [result=" + result + ", type=" + type + "]";
+        return "ResponseModel [value=" + value + ", type=" + type + "]";
     }   
 }

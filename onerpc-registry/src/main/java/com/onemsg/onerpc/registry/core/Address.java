@@ -2,32 +2,53 @@ package com.onemsg.onerpc.registry.core;
 
 import java.util.Objects;
 
+import javax.annotation.concurrent.Immutable;
+
+/**
+ * A node address with host and port
+ * 
+ * @author mashuguang
+ * @since 2022-1
+ */
+@Immutable
 public final class Address {
 
-    private String host;
-    private int port;
+    private final String host;
+    private final int port;
 
-    private Address() {
+    private Address(String host, int port) {
+        this.host = host;
+        this.port = port;
     }
 
-    public String getHost() {
+    public String host() {
         return host;
     }
 
-    public int getPort() {
+    public int port() {
         return port;
     }
 
+    /**
+     * Create a address with format "host:port" 
+     * @param socket host:port
+     * @return a address
+     */
     public static Address of(String socket) {
-        String[] host_port = socket.split(":");
-        return of(host_port[0], Integer.parseInt(host_port[1]));
+        Objects.requireNonNull(socket);
+        String[] hostPort = socket.split(":");
+        return of(hostPort[0], Integer.parseInt(hostPort[1]));
     }
 
+    /**
+     * Create a address with host and port
+     * @param host host
+     * @param port port
+     * @return
+     */
     public static Address of(String host, int port) {
-        Address a = new Address();
-        a.host = host;
-        a.port = port;
-        return a;
+        Objects.requireNonNull(host);
+        return new Address(host, port);
     }
 
     @Override

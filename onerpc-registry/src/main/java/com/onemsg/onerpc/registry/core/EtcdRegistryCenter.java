@@ -2,9 +2,7 @@ package com.onemsg.onerpc.registry.core;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,19 +14,24 @@ import io.etcd.jetcd.KeyValue;
 import io.etcd.jetcd.Watch.Listener;
 import io.etcd.jetcd.options.GetOption;
 
+/**
+ * A RegistryCenter implement with Etcd
+ * 
+ * @author mashuguang
+ * @since 2022-1
+ */
 public class EtcdRegistryCenter implements RegistryCenter {
 
-    private static final Logger logger = LoggerFactory.getLogger(EtcdRegistryCenter.class);
-    private static final GetOption GET_OPTION;
+    private static final Logger log = LoggerFactory.getLogger(EtcdRegistryCenter.class);
 
-    static {
-        GET_OPTION = GetOption.newBuilder().withLimit(1).build();
-    }
+    private static final GetOption GET_OPTION = GetOption.newBuilder().withLimit(1).build();
 
-    private Client client;
-    private KV kvClient;
+    private final Client client;
+
+    private final KV kvClient;
 
     public EtcdRegistryCenter(String... endpoints){
+        Objects.requireNonNull(endpoints);
         client = Client.builder().endpoints(endpoints).build();
         kvClient = client.getKVClient();
     }
@@ -36,25 +39,25 @@ public class EtcdRegistryCenter implements RegistryCenter {
     @Override
     public boolean register(String name, Address address) {
         try {
-            kvClient.put(encode(name), encode(address.toString())).get(5L, TimeUnit.SECONDS);
-        } catch (InterruptedException | ExecutionException | TimeoutException e) {
-            logger.error("ETCD put 操作失败", e);
-            return false;
+            kvClient.put(encode(name), encode(address.toString())).join();
+            return true;
+        } catch (Exception e) {
+            log.warn("register a service node failed, {} {}", name, address, e);
         }
-        return true;
+        return false;
     }
 
     @Override
     public Address discover(String name) {
         List<KeyValue> list;
         try {
-            list = kvClient.get(encode(name), GET_OPTION).get(5, TimeUnit.SECONDS).getKvs();
-        } catch (InterruptedException | ExecutionException | TimeoutException e) {
-            logger.error("ETCD get 操作失败", e);
+            list = kvClient.get(encode(name), GET_OPTION).join().getKvs();
+        } catch (Exception e) {
+            log.warn("discover a service address failed, {}", name, e);
             return null;
         }
         if (list.isEmpty() || list.get(0).getValue().isEmpty()){
-            logger.warn("ETCD get key={} 为空", name);
+            log.warn("dont discover service address, {}", name);
             return null;
         }
         return Address.of(decode(list.get(0).getValue()));
@@ -62,13 +65,13 @@ public class EtcdRegistryCenter implements RegistryCenter {
 
     @Override
     public boolean unRegister(String name, Address address) {
-        Address a = discover(name);
-        if (address.equals(a)) {
+        Address address2 = discover(name);
+        if ( Objects.equals(address, address2) ) {
             try {
-                kvClient.delete(encode(name)).get(5, TimeUnit.SECONDS);
+                kvClient.delete(encode(name)).join();
                 return true;
-            } catch (InterruptedException | ExecutionException | TimeoutException e) {
-                logger.error("ETCD delete 操作失败", e);
+            } catch (Exception e) {
+                log.warn("unregister service node failed, {} {}", name, address, e);
             }
         }
         return false;
@@ -77,7 +80,14 @@ public class EtcdRegistryCenter implements RegistryCenter {
     @Override
     public void watch(String name, Listener listener){
         client.getWatchClient().watch(encode(name), listener);
-        logger.info("ETCD watch 正在监听 {}", name);
+        log.info("etcd is watching {}", name);
+    }
+
+    @Override
+    public void close() {
+        kvClient.close();
+        client.close();
+        log.info("EtcdRegistryCenter is closed");
     }
 
     private static ByteSequence encode(String value) {
@@ -86,11 +96,5 @@ public class EtcdRegistryCenter implements RegistryCenter {
 
     private static String decode(ByteSequence byteSequence) {
         return byteSequence.toString(StandardCharsets.UTF_8);
-    }
-
-    @Override
-    public void close() {
-        kvClient.close();
-        client.close();
     }
 }
