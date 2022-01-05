@@ -1,17 +1,24 @@
 package com.onemsg.onerpc.core.model;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
-public final class RequestModel implements Serializable {
+/**
+ * rpc 统一请求模型
+ * 
+ * @author mashugang
+ * @since 2021
+ */
+public final class RequestModel {
 
-    private static final long serialVersionUID = 1256461449739747811L;
-
+    /** 类/接口全限定名 */
     private String className;
+    /** 方法名 */
     private String methodName;
-    private Object[] params;
+    /** 参数类型 */
     private Class<?>[] parameterTypes;
+    /** 参数值 */
+    private Object[] params;
 
     public String getClassName() {
         return className;

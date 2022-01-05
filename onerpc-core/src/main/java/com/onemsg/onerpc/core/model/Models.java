@@ -8,20 +8,33 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
 import org.msgpack.jackson.dataformat.MessagePackFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+/**
+ * 数据模型序列化工具类
+ * 
+ * @author mashuguang
+ * @since 2021
+ */
 public class Models {
 
-    private static final ObjectMapper objectMapper;
+    private static final Logger log = LoggerFactory.getLogger(Models.class);
 
-    static {
-        objectMapper = new ObjectMapper(MessagePackFactory.builder().build());
-    }
+    private static final ObjectMapper objectMapper = new ObjectMapper(new MessagePackFactory());
 
+    private Models() {}
+
+    /**
+     * 请求模型转化为比特数组, 转化失败返回 null
+     * @param requestModel
+     * @return
+     */
     public static byte[] toBytes(RequestModel requestModel) {
         try {
             return objectMapper.writeValueAsBytes(requestModel);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+           log.warn("requestModel convert to bytes failed, {}", e.getMessage());
         }
         return null;
     }
@@ -30,7 +43,7 @@ public class Models {
         try {
             return objectMapper.writeValueAsBytes(responseModel);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            log.warn("responseModel convert to bytes failed, {}", e.getMessage());
         }
         return null;
     }
@@ -55,7 +68,7 @@ public class Models {
             return requestModel;
 
         } catch (IOException e) {
-            e.printStackTrace();
+            log.warn("bytes convert to RequestModel failed, {}", e.getMessage());
         }
         return null;
     }
@@ -69,7 +82,7 @@ public class Models {
             responseModel.setResult(objectMapper.readValue(node.get("result").traverse(), Class.forName(type)));
             return responseModel;
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            log.warn("bytes convert to ResponseModel failed, {}", e.getMessage());
         }
         return null;
     }
